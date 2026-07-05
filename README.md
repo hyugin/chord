@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Resources/app-icon-256.png" alt="CASK app icon" width="128">
+</p>
+
 # Cask
 
 **CASK — Context-Aware Shortcut Keys**
