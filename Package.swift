@@ -2,22 +2,22 @@
 import PackageDescription
 
 let package = Package(
-  name: "CASK",
+  name: "CHORD",
   platforms: [
     .macOS(.v13),
   ],
   products: [
-    .executable(name: "CASK", targets: ["CASK"]),
+    .executable(name: "CHORD", targets: ["CHORD"]),
   ],
   targets: [
     .executableTarget(
-      name: "CASK",
-      path: "Sources/CASK"
+      name: "CHORD",
+      path: "Sources/CHORD"
     ),
     .testTarget(
-      name: "CASKTests",
-      dependencies: ["CASK"],
-      path: "Tests/CASKTests",
+      name: "CHORDTests",
+      dependencies: ["CHORD"],
+      path: "Tests/CHORDTests",
       resources: [
         .copy("Fixtures"),
       ]

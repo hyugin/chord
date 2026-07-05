@@ -2,12 +2,12 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-APP_NAME="CASK"
+APP_NAME="CHORD"
 VERSION="${VERSION:?VERSION is required}"
 DIST_DIR="$ROOT/dist"
 APP_PATH="$DIST_DIR/$APP_NAME.app"
 STAGING_DIR="$DIST_DIR/dmg-staging"
-DMG_PATH="$DIST_DIR/cask-${VERSION}.dmg"
+DMG_PATH="$DIST_DIR/chord-${VERSION}.dmg"
 
 if [[ ! -d "$APP_PATH" ]]; then
   echo "error: missing app bundle at $APP_PATH (run ./scripts/build.sh first)" >&2
@@ -24,7 +24,7 @@ mkdir -p "$STAGING_DIR"
 cp -R "$APP_PATH" "$STAGING_DIR/"
 
 create-dmg \
-  --volname "CASK" \
+  --volname "CHORD" \
   --window-pos 200 120 \
   --window-size 600 300 \
   --icon-size 100 \

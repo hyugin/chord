@@ -2,7 +2,7 @@ import AppKit
 import SwiftUI
 
 @main
-struct CASKApp: App {
+struct CHORDApp: App {
   @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
   @StateObject private var monitor: FrontmostAppMonitor
   @StateObject private var appState: AppState

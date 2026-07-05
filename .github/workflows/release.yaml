@@ -52,9 +52,9 @@ jobs:
         env:
           VERSION: ${{ steps.bump.outputs.version }}
         run: |
-          DMG="dist/cask-${VERSION}.dmg"
+          DMG="dist/chord-${VERSION}.dmg"
           SHA256="$(shasum -a 256 "$DMG" | awk '{print $1}')"
-          printf '%s  %s\n' "$SHA256" "cask-${VERSION}.dmg" > "${DMG}.sha256"
+          printf '%s  %s\n' "$SHA256" "chord-${VERSION}.dmg" > "${DMG}.sha256"
           echo "sha256=$SHA256" >> "$GITHUB_OUTPUT"
 
       - name: Push commit and tag
@@ -85,17 +85,17 @@ jobs:
           SHA-256: ${SHA256}
           \`\`\`
 
-          After downloading \`cask-${VERSION}.dmg\` and \`cask-${VERSION}.dmg.sha256\`, run:
+          After downloading \`chord-${VERSION}.dmg\` and \`chord-${VERSION}.dmg.sha256\`, run:
 
           \`\`\`bash
-          shasum -a 256 -c cask-${VERSION}.dmg.sha256
+          shasum -a 256 -c chord-${VERSION}.dmg.sha256
           \`\`\`
 
           A matching checksum confirms the file was not altered after the release was published.
           EOF
 
           gh release create "v${VERSION}" \
-            "dist/cask-${VERSION}.dmg" \
-            "dist/cask-${VERSION}.dmg.sha256" \
-            --title "cask v${VERSION}" \
+            "dist/chord-${VERSION}.dmg" \
+            "dist/chord-${VERSION}.dmg.sha256" \
+            --title "CHORD v${VERSION}" \
             --notes-file release-notes.md

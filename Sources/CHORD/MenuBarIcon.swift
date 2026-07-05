@@ -5,7 +5,7 @@ enum MenuBarIcon {
 
   private static var symbolName: String {
     guard
-      let fromEnvironment = ProcessInfo.processInfo.environment["CASK_MENUBAR_ICON"]?
+      let fromEnvironment = ProcessInfo.processInfo.environment["CHORD_MENUBAR_ICON"]?
         .trimmingCharacters(in: .whitespacesAndNewlines),
       !fromEnvironment.isEmpty
     else {
@@ -19,7 +19,7 @@ enum MenuBarIcon {
 
     for name in [symbolName, defaultSymbolName] {
       guard
-        let symbol = NSImage(systemSymbolName: name, accessibilityDescription: "CASK"),
+        let symbol = NSImage(systemSymbolName: name, accessibilityDescription: "CHORD"),
         let configured = symbol.withSymbolConfiguration(configuration)
       else {
         continue

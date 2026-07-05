@@ -1,5 +1,5 @@
 import XCTest
-@testable import CASK
+@testable import CHORD
 
 final class KarabinerShortcutExtractorTests: XCTestCase {
   private var config: KarabinerConfig!

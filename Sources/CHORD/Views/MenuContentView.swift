@@ -25,7 +25,7 @@ struct MenuContentView: View {
           windowManager.openKeyboardMap(appState: appState, monitor: monitor)
         }
 
-        MenuActionRow(title: "Quit CASK") {
+        MenuActionRow(title: "Quit CHORD") {
           NSApplication.shared.terminate(nil)
         }
       }
@@ -36,7 +36,7 @@ struct MenuContentView: View {
 
   private var header: some View {
     VStack(alignment: .leading, spacing: 2) {
-      Text("CASK")
+      Text("CHORD")
         .font(.headline)
       Text(monitor.frontmostAppName)
         .font(.subheadline)

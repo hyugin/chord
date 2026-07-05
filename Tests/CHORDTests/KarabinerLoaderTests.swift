@@ -1,5 +1,5 @@
 import XCTest
-@testable import CASK
+@testable import CHORD
 
 final class KarabinerLoaderTests: XCTestCase {
   func testRejectsOversizedConfig() throws {
