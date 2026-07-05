@@ -1,0 +1,191 @@
+{
+  "global": {
+    "profile_name": "Default profile"
+  },
+  "profiles": [
+    {
+      "name": "Default profile",
+      "complex_modifications": {
+        "rules": [
+          {
+            "description": "Global spotlight",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "spacebar",
+                  "modifiers": {
+                    "mandatory": ["left_command", "left_option"]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a Spotlight"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Safari reload",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "r",
+                  "modifiers": {
+                    "mandatory": ["left_command", "left_shift"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": ["^com\\.apple\\.Safari$"]
+                  }
+                ],
+                "to": [
+                  {
+                    "key_code": "r",
+                    "modifiers": ["left_command"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Browser apps new tab",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "t",
+                  "modifiers": {
+                    "mandatory": ["left_command"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "frontmost_application_if",
+                    "bundle_identifiers": [
+                      "^com\\.apple\\.Safari$",
+                      "^com\\.google\\.Chrome$"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "w",
+                  "modifiers": {
+                    "mandatory": ["left_command"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "frontmost_application_unless",
+                    "bundle_identifiers": ["^com\\.apple\\.Terminal$"]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Hyper window manager",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": {
+                    "mandatory": [
+                      "left_command",
+                      "left_control",
+                      "left_option",
+                      "left_shift"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a Rectangle"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Hyper layer key (Caps Lock)",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "caps_lock"
+                },
+                "to": [
+                  {
+                    "set_variable": {
+                      "name": "hyper",
+                      "value": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Layer-scoped launcher",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "key_code": "a",
+                  "modifiers": {
+                    "mandatory": ["left_command", "left_control", "left_option", "left_shift"]
+                  }
+                },
+                "conditions": [
+                  {
+                    "type": "variable_if",
+                    "name": "hyper",
+                    "value": 1,
+                    "description": "hyper layer active"
+                  }
+                ],
+                "to": [
+                  {
+                    "shell_command": "open -a Activity Monitor"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "description": "Simultaneous combo",
+            "manipulators": [
+              {
+                "type": "basic",
+                "from": {
+                  "simultaneous": [
+                    { "key_code": "s" },
+                    { "key_code": "d" }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Unused profile",
+      "complex_modifications": {
+        "rules": []
+      }
+    }
+  ]
+}

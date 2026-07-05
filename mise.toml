@@ -1,0 +1,14 @@
+[tools]
+node = "22"
+
+[tasks.cask]
+description = "Run CASK"
+run = "swift run"
+
+[tasks."cask:build"]
+description = "Build CASK.app"
+run = "./scripts/build.sh"
+
+[tasks."cask:test"]
+description = "Run CASK tests"
+run = "swift test"
