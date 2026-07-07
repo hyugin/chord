@@ -97,5 +97,5 @@ jobs:
           gh release create "v${VERSION}" \
             "dist/chord-${VERSION}.dmg" \
             "dist/chord-${VERSION}.dmg.sha256" \
-            --title "CHORD v${VERSION}" \
+            --title "Chord v${VERSION}" \
             --notes-file release-notes.md

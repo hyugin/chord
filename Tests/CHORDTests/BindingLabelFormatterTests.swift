@@ -1,5 +1,5 @@
 import XCTest
-@testable import CHORD
+@testable import Chord
 
 final class BindingLabelFormatterTests: XCTestCase {
   func testExtractsActionAfterArrow() {

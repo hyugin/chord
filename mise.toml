@@ -2,13 +2,13 @@
 node = "22"
 
 [tasks.chord]
-description = "Run CHORD"
+description = "Run Chord"
 run = "swift run"
 
 [tasks."chord:build"]
-description = "Build CHORD.app"
+description = "Build Chord.app"
 run = "./scripts/build.sh"
 
 [tasks."chord:test"]
-description = "Run CHORD tests"
+description = "Run Chord tests"
 run = "swift test"

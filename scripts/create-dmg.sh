@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-APP_NAME="CHORD"
+APP_NAME="Chord"
 VERSION="${VERSION:?VERSION is required}"
 DIST_DIR="$ROOT/dist"
 APP_PATH="$DIST_DIR/$APP_NAME.app"
@@ -24,7 +24,7 @@ mkdir -p "$STAGING_DIR"
 cp -R "$APP_PATH" "$STAGING_DIR/"
 
 create-dmg \
-  --volname "CHORD" \
+  --volname "Chord" \
   --window-pos 200 120 \
   --window-size 600 300 \
   --icon-size 100 \

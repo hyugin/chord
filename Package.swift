@@ -2,22 +2,22 @@
 import PackageDescription
 
 let package = Package(
-  name: "CHORD",
+  name: "Chord",
   platforms: [
     .macOS(.v13),
   ],
   products: [
-    .executable(name: "CHORD", targets: ["CHORD"]),
+    .executable(name: "Chord", targets: ["Chord"]),
   ],
   targets: [
     .executableTarget(
-      name: "CHORD",
-      path: "Sources/CHORD"
+      name: "Chord",
+      path: "Sources/Chord"
     ),
     .testTarget(
-      name: "CHORDTests",
-      dependencies: ["CHORD"],
-      path: "Tests/CHORDTests",
+      name: "ChordTests",
+      dependencies: ["Chord"],
+      path: "Tests/ChordTests",
       resources: [
         .copy("Fixtures"),
       ]
