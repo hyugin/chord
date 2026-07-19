@@ -79,7 +79,9 @@ Building from source requires Xcode (or the Swift toolchain).
 
 ### Install from a release DMG
 
-Pre-built DMGs are published on [GitHub Releases](https://github.com/hyugin/chord/releases). Chord is ad-hoc signed (no Apple Developer account), so macOS Gatekeeper may block the first launch.
+Pre-built DMGs are published on [GitHub Releases](https://github.com/hyugin/chord/releases). Chord is ad-hoc signed (no Apple Developer account): every release is a new binary hash, so macOS quarantines the download and treats it as an unknown app.
+
+A double-clickable installer script does **not** help here — macOS shows the same “could not verify … free of malware” dialog for any executable you download (`.app` or `.command`). Clear quarantine from Terminal instead (commands you paste are not Gatekeeper-blocked the same way).
 
 1. Download `chord-<version>.dmg` and `chord-<version>.dmg.sha256` from the latest release.
 2. Verify the download was not altered:
@@ -90,20 +92,14 @@ shasum -a 256 -c chord-<version>.dmg.sha256
 
 You should see `chord-<version>.dmg: OK`. The release notes also list the SHA-256 hash if you prefer to compare manually.
 
-3. Open the DMG. Prefer **Install Chord.command** (double-click). It copies Chord into `/Applications`, runs `xattr -cr` to clear Gatekeeper quarantine, and launches the app.
-4. If macOS blocks the installer script itself, **Right-click → Open** once on `Install Chord.command`, then confirm. After that, Chord should open without a trip through System Settings.
-
-**Manual install** (same end result):
-
-1. Drag **Chord** to **Applications**.
-2. Clear quarantine, then open:
+3. Open the DMG and drag **Chord** to **Applications** (the DMG also includes **How to Install.txt** with these steps).
+4. In Terminal, clear quarantine and launch:
 
 ```bash
-xattr -cr /Applications/Chord.app
-open /Applications/Chord.app
+xattr -cr /Applications/Chord.app && open /Applications/Chord.app
 ```
 
-Or approve via **System Settings → Privacy & Security → Open Anyway** (needed again after every new download, because the ad-hoc code hash changes each release).
+Repeat step 4 after every new download. Alternatively, use **System Settings → Privacy & Security → Open Anyway** (same re-approval every release).
 
 No Apple Developer account or paid signing is required on your side. Building from source (above) also avoids Gatekeeper prompts.
 

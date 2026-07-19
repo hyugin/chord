@@ -6,7 +6,7 @@ APP_NAME="Chord"
 VERSION="${VERSION:?VERSION is required}"
 DIST_DIR="$ROOT/dist"
 APP_PATH="$DIST_DIR/$APP_NAME.app"
-INSTALLER_SRC="$ROOT/scripts/dmg/Install Chord.command"
+INSTALL_TXT_SRC="$ROOT/scripts/dmg/How to Install.txt"
 STAGING_DIR="$DIST_DIR/dmg-staging"
 DMG_PATH="$DIST_DIR/chord-${VERSION}.dmg"
 
@@ -15,8 +15,8 @@ if [[ ! -d "$APP_PATH" ]]; then
   exit 1
 fi
 
-if [[ ! -f "$INSTALLER_SRC" ]]; then
-  echo "error: missing DMG installer at $INSTALLER_SRC" >&2
+if [[ ! -f "$INSTALL_TXT_SRC" ]]; then
+  echo "error: missing DMG install notes at $INSTALL_TXT_SRC" >&2
   exit 1
 fi
 
@@ -28,8 +28,7 @@ fi
 rm -rf "$STAGING_DIR" "$DMG_PATH"
 mkdir -p "$STAGING_DIR"
 cp -R "$APP_PATH" "$STAGING_DIR/"
-cp "$INSTALLER_SRC" "$STAGING_DIR/Install Chord.command"
-chmod +x "$STAGING_DIR/Install Chord.command"
+cp "$INSTALL_TXT_SRC" "$STAGING_DIR/How to Install.txt"
 
 create-dmg \
   --volname "Chord" \
@@ -39,7 +38,7 @@ create-dmg \
   --icon "$APP_NAME.app" 160 120 \
   --hide-extension "$APP_NAME.app" \
   --app-drop-link 480 120 \
-  --icon "Install Chord.command" 320 280 \
+  --icon "How to Install.txt" 320 280 \
   --skip-jenkins \
   "$DMG_PATH" \
   "$STAGING_DIR"
