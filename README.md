@@ -79,7 +79,7 @@ Building from source requires Xcode (or the Swift toolchain).
 
 ### Install from a release DMG
 
-Pre-built DMGs are published on [GitHub Releases](https://github.com/hyugin/cask/releases). Chord is ad-hoc signed (no Apple Developer account): every release is a new binary hash, so macOS treats each download as a new unknown app unless you clear the quarantine flag.
+Pre-built DMGs are published on [GitHub Releases](https://github.com/hyugin/chord/releases). Chord is ad-hoc signed (no Apple Developer account), so macOS Gatekeeper may block the first launch.
 
 1. Download `chord-<version>.dmg` and `chord-<version>.dmg.sha256` from the latest release.
 2. Verify the download was not altered:
@@ -164,6 +164,12 @@ Chord creates `~/.config/chord/` on launch and reloads when the file changes.
 ## Inspiration
 
 Chord is inspired by KeyClu — the same glanceable, context-aware spirit, focused on surfacing your custom Karabiner layer.
+
+## Related
+
+| Project | Role |
+|---------|------|
+| [Watchtower](https://github.com/hyugin/watchtower) | Sibling macOS menubar app — health checks, background apps, MCP supervision, and logs |
 
 ## License
 
