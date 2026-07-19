@@ -90,12 +90,22 @@ shasum -a 256 -c chord-<version>.dmg.sha256
 
 You should see `chord-<version>.dmg: OK`. The release notes also list the SHA-256 hash if you prefer to compare manually.
 
-3. Open the DMG and drag **Chord** to **Applications**.
-4. On first launch, macOS may say the developer cannot be verified. **Right-click Chord → Open**, then confirm. You only need to do this once.
+3. Open the DMG. Prefer **Install Chord.command** (double-click). It copies Chord into `/Applications`, runs `xattr -cr` to clear Gatekeeper quarantine, and launches the app.
+4. If macOS blocks the installer script itself, **Right-click → Open** once on `Install Chord.command`, then confirm. After that, Chord should open without a trip through System Settings.
 
-Alternatively, approve the app in **System Settings → Privacy & Security → Open Anyway**.
+**Manual install** (same end result):
 
-No Apple Developer account or paid signing is required on your side.
+1. Drag **Chord** to **Applications**.
+2. Clear quarantine, then open:
+
+```bash
+xattr -cr /Applications/Chord.app
+open /Applications/Chord.app
+```
+
+Or approve via **System Settings → Privacy & Security → Open Anyway** (needed again after every new download, because the ad-hoc code hash changes each release).
+
+No Apple Developer account or paid signing is required on your side. Building from source (above) also avoids Gatekeeper prompts.
 
 ## Usage
 
@@ -114,6 +124,34 @@ Chord reads from the standard Karabiner config location:
 
 For the cleanest labels, give each `complex_modifications` rule a clear `description` — that's what Chord displays. App-specific rules (scoped via `frontmost_application_if`) show under the matching app; everything else shows in your global layer.
 
+### Supplemental bindings (non-Karabiner)
+
+For shortcuts that never appear in Karabiner — browser userscripts, app-native chords, etc. — add:
+
+```
+~/.config/chord/bindings.json
+```
+
+Example (also in [`examples/bindings.json`](examples/bindings.json)):
+
+```json
+{
+  "bindings": [
+    {
+      "keys": "⌘⇧L",
+      "label": "Notion | Toggle tab lock (launcher)",
+      "bundleIdentifier": "app.zen-browser.zen"
+    }
+  ]
+}
+```
+
+- `keys` — display form (`⌘⇧L` is fine; Chord inserts the thin space)
+- `label` — same style as Karabiner rule descriptions
+- `bundleIdentifier` — optional; omit for a global entry
+
+Chord creates `~/.config/chord/` on launch and reloads when the file changes.
+
 ## Roadmap
 
 - [ ] Search/filter within the current app's shortcuts
@@ -121,6 +159,7 @@ For the cleanest labels, give each `complex_modifications` rule a clear `descrip
 - [ ] Pinned/favourite bindings
 - [ ] Light/dark theming polish
 - [x] Auto-refresh on `karabiner.json` change
+- [x] Supplemental bindings via `~/.config/chord/bindings.json`
 
 ## Inspiration
 

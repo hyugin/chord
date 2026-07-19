@@ -92,6 +92,19 @@ jobs:
           \`\`\`
 
           A matching checksum confirms the file was not altered after the release was published.
+
+          ## Install (ad-hoc signed)
+
+          Open the DMG and double-click **Install Chord.command**. It copies Chord to \`/Applications\`, clears the download quarantine flag, and launches the app — so you do not need to re-approve each release in System Settings.
+
+          If macOS blocks the installer, Right-click → Open once on \`Install Chord.command\`.
+
+          Manual alternative after dragging Chord to Applications:
+
+          \`\`\`bash
+          xattr -cr /Applications/Chord.app
+          open /Applications/Chord.app
+          \`\`\`
           EOF
 
           gh release create "v${VERSION}" \

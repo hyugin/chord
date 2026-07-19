@@ -6,11 +6,17 @@ APP_NAME="Chord"
 VERSION="${VERSION:?VERSION is required}"
 DIST_DIR="$ROOT/dist"
 APP_PATH="$DIST_DIR/$APP_NAME.app"
+INSTALLER_SRC="$ROOT/scripts/dmg/Install Chord.command"
 STAGING_DIR="$DIST_DIR/dmg-staging"
 DMG_PATH="$DIST_DIR/chord-${VERSION}.dmg"
 
 if [[ ! -d "$APP_PATH" ]]; then
   echo "error: missing app bundle at $APP_PATH (run ./scripts/build.sh first)" >&2
+  exit 1
+fi
+
+if [[ ! -f "$INSTALLER_SRC" ]]; then
+  echo "error: missing DMG installer at $INSTALLER_SRC" >&2
   exit 1
 fi
 
@@ -22,15 +28,18 @@ fi
 rm -rf "$STAGING_DIR" "$DMG_PATH"
 mkdir -p "$STAGING_DIR"
 cp -R "$APP_PATH" "$STAGING_DIR/"
+cp "$INSTALLER_SRC" "$STAGING_DIR/Install Chord.command"
+chmod +x "$STAGING_DIR/Install Chord.command"
 
 create-dmg \
   --volname "Chord" \
   --window-pos 200 120 \
-  --window-size 600 300 \
+  --window-size 640 420 \
   --icon-size 100 \
-  --icon "$APP_NAME.app" 175 120 \
+  --icon "$APP_NAME.app" 160 120 \
   --hide-extension "$APP_NAME.app" \
-  --app-drop-link 425 120 \
+  --app-drop-link 480 120 \
+  --icon "Install Chord.command" 320 280 \
   --skip-jenkins \
   "$DMG_PATH" \
   "$STAGING_DIR"
