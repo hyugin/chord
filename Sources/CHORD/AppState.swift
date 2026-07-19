@@ -45,8 +45,6 @@ final class AppState: ObservableObject {
     } catch {
       config = nil
       loadError = error.localizedDescription
-      appBindings = []
-      globalBindings = []
       shortcutExtraction = nil
       shortcutExtractionWarnings = []
     }
@@ -63,13 +61,9 @@ final class AppState: ObservableObject {
   }
 
   private func refreshBindings(bundleIdentifier: String?, config: KarabinerConfig?) {
-    guard let config else {
-      appBindings = []
-      globalBindings = []
-      return
-    }
+    let karabinerBindings = config.map { BindingMatcher.bindings(for: bundleIdentifier, in: $0) } ?? []
+    let bindings = karabinerBindings + ZenShortcutCatalog.bindings(for: bundleIdentifier)
 
-    let bindings = BindingMatcher.bindings(for: bundleIdentifier, in: config)
     appBindings = bindings.filter {
       if case .app = $0.scope { return true }
       return false
