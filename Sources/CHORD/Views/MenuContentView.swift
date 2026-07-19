@@ -14,9 +14,16 @@ struct MenuContentView: View {
           .font(.caption)
           .foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
-      } else {
-        bindingsSection
       }
+
+      if let supplementalLoadError = appState.supplementalLoadError {
+        Text(supplementalLoadError)
+          .font(.caption)
+          .foregroundStyle(.secondary)
+          .fixedSize(horizontal: false, vertical: true)
+      }
+
+      bindingsSection
 
       Divider()
 

@@ -114,6 +114,34 @@ Chord reads from the standard Karabiner config location:
 
 For the cleanest labels, give each `complex_modifications` rule a clear `description` — that's what Chord displays. App-specific rules (scoped via `frontmost_application_if`) show under the matching app; everything else shows in your global layer.
 
+### Supplemental bindings (non-Karabiner)
+
+For shortcuts that never appear in Karabiner — browser userscripts, app-native chords, etc. — add:
+
+```
+~/.config/chord/bindings.json
+```
+
+Example (also in [`examples/bindings.json`](examples/bindings.json)):
+
+```json
+{
+  "bindings": [
+    {
+      "keys": "⌘⇧L",
+      "label": "Notion | Toggle tab lock (launcher)",
+      "bundleIdentifier": "app.zen-browser.zen"
+    }
+  ]
+}
+```
+
+- `keys` — display form (`⌘⇧L` is fine; Chord inserts the thin space)
+- `label` — same style as Karabiner rule descriptions
+- `bundleIdentifier` — optional; omit for a global entry
+
+Chord creates `~/.config/chord/` on launch and reloads when the file changes.
+
 ## Roadmap
 
 - [ ] Search/filter within the current app's shortcuts
@@ -121,6 +149,7 @@ For the cleanest labels, give each `complex_modifications` rule a clear `descrip
 - [ ] Pinned/favourite bindings
 - [ ] Light/dark theming polish
 - [x] Auto-refresh on `karabiner.json` change
+- [x] Supplemental bindings via `~/.config/chord/bindings.json`
 
 ## Inspiration
 

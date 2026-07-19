@@ -1,0 +1,9 @@
+{
+  "bindings": [
+    {
+      "keys": "⌘⇧L",
+      "label": "Notion | Toggle tab lock (launcher)",
+      "bundleIdentifier": "app.zen-browser.zen"
+    }
+  ]
+}
