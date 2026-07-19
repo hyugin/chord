@@ -92,14 +92,24 @@ shasum -a 256 -c chord-<version>.dmg.sha256
 
 You should see `chord-<version>.dmg: OK`. The release notes also list the SHA-256 hash if you prefer to compare manually.
 
-3. Open the DMG and drag **Chord** to **Applications** (the DMG also includes **How to Install.txt** with these steps).
-4. In Terminal, clear quarantine and launch:
+3. Install from Terminal (mounts the DMG, copies to Applications, clears quarantine, launches). From the folder that contains the DMG:
+
+```bash
+DMG="chord-<version>.dmg"
+hdiutil attach "$DMG" -nobrowse -quiet
+cp -R "/Volumes/Chord/Chord.app" /Applications/
+xattr -cr /Applications/Chord.app
+open /Applications/Chord.app
+hdiutil detach "/Volumes/Chord" -quiet
+```
+
+Or drag **Chord** to **Applications** from the DMG window, then:
 
 ```bash
 xattr -cr /Applications/Chord.app && open /Applications/Chord.app
 ```
 
-Repeat step 4 after every new download. Alternatively, use **System Settings → Privacy & Security → Open Anyway** (same re-approval every release).
+The DMG also includes **How to Install.txt** with these steps. Repeat after every new download. Alternatively, use **System Settings → Privacy & Security → Open Anyway** (same re-approval every release).
 
 No Apple Developer account or paid signing is required on your side. Building from source (above) also avoids Gatekeeper prompts.
 

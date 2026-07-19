@@ -95,11 +95,18 @@ jobs:
 
           ## Install (ad-hoc signed)
 
-          Drag **Chord** to Applications, then in Terminal:
+          From the folder with the DMG:
 
           \`\`\`bash
-          xattr -cr /Applications/Chord.app && open /Applications/Chord.app
+          DMG="chord-${VERSION}.dmg"
+          hdiutil attach "\$DMG" -nobrowse -quiet
+          cp -R "/Volumes/Chord/Chord.app" /Applications/
+          xattr -cr /Applications/Chord.app
+          open /Applications/Chord.app
+          hdiutil detach "/Volumes/Chord" -quiet
           \`\`\`
+
+          Or drag **Chord** to Applications, then: \`xattr -cr /Applications/Chord.app && open /Applications/Chord.app\`
 
           That clears the download quarantine flag so you can skip System Settings → Open Anyway. Repeat after every new download (each release has a new ad-hoc code hash). The DMG includes **How to Install.txt** with the same steps.
 
