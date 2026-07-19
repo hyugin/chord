@@ -92,7 +92,9 @@ shasum -a 256 -c chord-<version>.dmg.sha256
 
 You should see `chord-<version>.dmg: OK`. The release notes also list the SHA-256 hash if you prefer to compare manually.
 
-3. Install from Terminal (mounts the DMG, copies to Applications, clears quarantine, launches). From the folder that contains the DMG:
+3. Prefer the in-app updater if Chord is already installed: download the DMG into **Downloads**, then choose **Install Update from Downloads…** in the Chord menu. It picks the newest `chord.dmg` / `chord-<version>.dmg`, installs to `/Applications`, clears quarantine, and relaunches (verifies a sibling `.sha256` when present).
+
+4. Or install from Terminal (mounts the DMG, copies to Applications, clears quarantine, launches). From the folder that contains the DMG:
 
 ```bash
 DMG="chord-<version>.dmg"

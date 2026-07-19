@@ -32,6 +32,12 @@ struct MenuContentView: View {
           windowManager.openKeyboardMap(appState: appState, monitor: monitor)
         }
 
+        MenuActionRow(title: "Install Update from Downloads…") {
+          Task {
+            await DownloadsUpdateInstaller.installFromDownloadsInteractively()
+          }
+        }
+
         MenuActionRow(title: "Quit Chord") {
           NSApplication.shared.terminate(nil)
         }

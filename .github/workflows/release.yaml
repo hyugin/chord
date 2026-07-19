@@ -95,7 +95,9 @@ jobs:
 
           ## Install (ad-hoc signed)
 
-          From the folder with the DMG:
+          **Already running Chord:** download this DMG into Downloads, then use **Install Update from Downloads…** in the Chord menu (clears quarantine and relaunches).
+
+          **First install / Terminal:**
 
           \`\`\`bash
           DMG="chord-${VERSION}.dmg"
