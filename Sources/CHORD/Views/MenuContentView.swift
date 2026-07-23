@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 struct MenuContentView: View {
@@ -28,6 +29,12 @@ struct MenuContentView: View {
       Divider()
 
       VStack(alignment: .leading, spacing: 2) {
+        if BrowserShortcutCatalogue.applies(toBundleIdentifier: monitor.frontmostBundleIdentifier) {
+          MenuActionRow(title: "Firefox / Zen Shortcuts…") {
+            openBrowserShortcuts()
+          }
+        }
+
         MenuActionRow(title: "Open Keyboard Map…") {
           windowManager.openKeyboardMap(appState: appState, monitor: monitor)
         }
@@ -86,6 +93,19 @@ struct MenuContentView: View {
       ForEach(bindings) { binding in
         BindingRowView(binding: binding)
       }
+    }
+  }
+
+  private func openBrowserShortcuts() {
+    do {
+      let catalogue = try BrowserShortcutCatalogue.load()
+      windowManager.openBrowserShortcutCheatSheet(catalogue: catalogue)
+    } catch {
+      let alert = NSAlert()
+      alert.messageText = "Couldn’t load browser shortcuts"
+      alert.informativeText = error.localizedDescription
+      alert.alertStyle = .warning
+      alert.runModal()
     }
   }
 }

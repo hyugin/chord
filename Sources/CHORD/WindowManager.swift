@@ -4,6 +4,7 @@ import SwiftUI
 @MainActor
 final class WindowManager: ObservableObject {
   private var keyboardMapWindow: NSWindow?
+  private var browserShortcutsWindow: NSWindow?
 
   func openKeyboardMap(appState: AppState, monitor: FrontmostAppMonitor) {
     openWindow(
@@ -15,6 +16,17 @@ final class WindowManager: ObservableObject {
       KeyboardMapView()
         .environmentObject(appState)
         .environmentObject(monitor)
+    }
+  }
+
+  func openBrowserShortcutCheatSheet(catalogue: BrowserShortcutCatalogueFile) {
+    openWindow(
+      existing: &browserShortcutsWindow,
+      title: "Firefox / Zen Shortcuts",
+      size: NSSize(width: 520, height: 640),
+      minSize: NSSize(width: 460, height: 420)
+    ) {
+      BrowserShortcutCheatSheetView(catalogue: catalogue)
     }
   }
 

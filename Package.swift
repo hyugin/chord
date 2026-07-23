@@ -12,7 +12,10 @@ let package = Package(
   targets: [
     .executableTarget(
       name: "Chord",
-      path: "Sources/Chord"
+      path: "Sources/Chord",
+      resources: [
+        .copy("AppShortcuts/firefox-zen-shortcuts.json"),
+      ]
     ),
     .testTarget(
       name: "ChordTests",

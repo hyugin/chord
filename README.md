@@ -19,6 +19,7 @@ No dock icon. No window clutter. Open, scan, act, dismiss.
 - **Context-aware bindings** — automatically scoped to the frontmost app, so your muscle-memory shortcuts are never more than a glance away.
 - **Live config reading** — pulls your real bindings straight from `karabiner.json`; labels come from each rule's description.
 - **Show all shortcuts** — a one-click window listing every keyboard shortcut grouped by app, for when you need the full layer rather than just your custom one.
+- **Firefox / Zen cheat sheet** — when Firefox or Zen is frontmost, open a trimmed, catalogue-driven shortcut reference (see `docs/browser-shortcuts.md`).
 - **Keyboard Map** — a visual map of occupied and available key combinations from your Karabiner config, with Hyperkey filtering and scope controls.
 - **Menubar-first & unobtrusive** — no dock icon, no clutter, native-feeling Swift UI.
 - **Re-runnable** — reflects your config changes whenever you update it.
