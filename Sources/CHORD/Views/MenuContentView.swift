@@ -56,8 +56,14 @@ struct MenuContentView: View {
 
   private var header: some View {
     VStack(alignment: .leading, spacing: 2) {
-      Text("Chord")
-        .font(.headline)
+      HStack(alignment: .firstTextBaseline) {
+        Text("Chord")
+          .font(.headline)
+        Spacer(minLength: 8)
+        Text("v\(AppVersion.marketing)")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+      }
       Text(monitor.frontmostAppName)
         .font(.subheadline)
         .foregroundStyle(.secondary)
