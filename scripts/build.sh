@@ -39,6 +39,16 @@ mkdir -p "$MACOS_DIR" "$RESOURCES_DIR"
 cp "$BINARY" "$MACOS_DIR/$APP_NAME"
 cp "$ROOT/Resources/Info.plist" "$APP_DIR/Contents/Info.plist"
 cp "$ROOT/Resources/AppIcon.icns" "$RESOURCES_DIR/AppIcon.icns"
+cp "$ROOT/Sources/Chord/AppShortcuts/firefox-zen-shortcuts.json" "$RESOURCES_DIR/firefox-zen-shortcuts.json"
+
+# SwiftPM resource bundles (Bundle.module) when present next to the binary.
+BINARY_DIR="$(dirname "$BINARY")"
+shopt -s nullglob
+for bundle in "$BINARY_DIR"/*.bundle; do
+  cp -R "$bundle" "$RESOURCES_DIR/"
+done
+shopt -u nullglob
+
 chmod +x "$MACOS_DIR/$APP_NAME"
 
 if command -v codesign >/dev/null 2>&1; then
