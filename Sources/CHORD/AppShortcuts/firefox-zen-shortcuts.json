@@ -160,8 +160,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "",
-      "keep": true,
-      "keepReason": "Weekly-or-more page search; keyboard is dramatically faster."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-find-again",
@@ -225,8 +225,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "macOS binding is command+alt+I. Zen docs table shows Windows-style ⇧Ctrl+I; both browsers use Firefox toolbox wiring on macOS.",
-      "keep": true,
-      "keepReason": "Primary developer entry point used throughout coding sessions."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-web-console",
@@ -238,8 +238,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "Zen docs list ⇧Ctrl+K; macOS uses accel+alt+K like Firefox.",
-      "keep": true,
-      "keepReason": "Frequent debugging surface; worth retaining beside the toolbox toggle."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-inspector",
