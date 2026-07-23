@@ -92,6 +92,27 @@ jobs:
           \`\`\`
 
           A matching checksum confirms the file was not altered after the release was published.
+
+          ## Install (ad-hoc signed)
+
+          **Already running Chord:** download this DMG into Downloads, then use **Install Update from Downloads…** in the Chord menu (clears quarantine and relaunches).
+
+          **First install / Terminal:**
+
+          \`\`\`bash
+          DMG="chord-${VERSION}.dmg"
+          hdiutil attach "\$DMG" -nobrowse -quiet
+          cp -R "/Volumes/Chord/Chord.app" /Applications/
+          xattr -cr /Applications/Chord.app
+          open /Applications/Chord.app
+          hdiutil detach "/Volumes/Chord" -quiet
+          \`\`\`
+
+          Or drag **Chord** to Applications, then: \`xattr -cr /Applications/Chord.app && open /Applications/Chord.app\`
+
+          That clears the download quarantine flag so you can skip System Settings → Open Anyway. Repeat after every new download (each release has a new ad-hoc code hash). The DMG includes **How to Install.txt** with the same steps.
+
+          A \`.command\` helper is not shipped on purpose: macOS shows the same malware dialog for any downloaded executable.
           EOF
 
           gh release create "v${VERSION}" \

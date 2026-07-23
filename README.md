@@ -80,7 +80,9 @@ Building from source requires Xcode (or the Swift toolchain).
 
 ### Install from a release DMG
 
-Pre-built DMGs are published on [GitHub Releases](https://github.com/hyugin/cask/releases). Chord is ad-hoc signed (no Apple Developer account), so macOS Gatekeeper may block the first launch.
+Pre-built DMGs are published on [GitHub Releases](https://github.com/hyugin/chord/releases). Chord is ad-hoc signed (no Apple Developer account): every release is a new binary hash, so macOS quarantines the download and treats it as an unknown app.
+
+A double-clickable installer script does **not** help here — macOS shows the same “could not verify … free of malware” dialog for any executable you download (`.app` or `.command`). Clear quarantine from Terminal instead (commands you paste are not Gatekeeper-blocked the same way).
 
 1. Download `chord-<version>.dmg` and `chord-<version>.dmg.sha256` from the latest release.
 2. Verify the download was not altered:
@@ -91,12 +93,28 @@ shasum -a 256 -c chord-<version>.dmg.sha256
 
 You should see `chord-<version>.dmg: OK`. The release notes also list the SHA-256 hash if you prefer to compare manually.
 
-3. Open the DMG and drag **Chord** to **Applications**.
-4. On first launch, macOS may say the developer cannot be verified. **Right-click Chord → Open**, then confirm. You only need to do this once.
+3. Prefer the in-app updater if Chord is already installed: download the DMG into **Downloads**, then choose **Install Update from Downloads…** in the Chord menu. It picks the newest `chord.dmg` / `chord-<version>.dmg`, installs to `/Applications`, clears quarantine, and relaunches (verifies a sibling `.sha256` when present).
 
-Alternatively, approve the app in **System Settings → Privacy & Security → Open Anyway**.
+4. Or install from Terminal (mounts the DMG, copies to Applications, clears quarantine, launches). From the folder that contains the DMG:
 
-No Apple Developer account or paid signing is required on your side.
+```bash
+DMG="chord-<version>.dmg"
+hdiutil attach "$DMG" -nobrowse -quiet
+cp -R "/Volumes/Chord/Chord.app" /Applications/
+xattr -cr /Applications/Chord.app
+open /Applications/Chord.app
+hdiutil detach "/Volumes/Chord" -quiet
+```
+
+Or drag **Chord** to **Applications** from the DMG window, then:
+
+```bash
+xattr -cr /Applications/Chord.app && open /Applications/Chord.app
+```
+
+The DMG also includes **How to Install.txt** with these steps. Repeat after every new download. Alternatively, use **System Settings → Privacy & Security → Open Anyway** (same re-approval every release).
+
+No Apple Developer account or paid signing is required on your side. Building from source (above) also avoids Gatekeeper prompts.
 
 ## Usage
 
@@ -115,6 +133,34 @@ Chord reads from the standard Karabiner config location:
 
 For the cleanest labels, give each `complex_modifications` rule a clear `description` — that's what Chord displays. App-specific rules (scoped via `frontmost_application_if`) show under the matching app; everything else shows in your global layer.
 
+### Supplemental bindings (non-Karabiner)
+
+For shortcuts that never appear in Karabiner — browser userscripts, app-native chords, etc. — add:
+
+```
+~/.config/chord/bindings.json
+```
+
+Example (also in [`examples/bindings.json`](examples/bindings.json)):
+
+```json
+{
+  "bindings": [
+    {
+      "keys": "⌘⇧L",
+      "label": "Notion | Toggle tab lock (launcher)",
+      "bundleIdentifier": "app.zen-browser.zen"
+    }
+  ]
+}
+```
+
+- `keys` — display form (`⌘⇧L` is fine; Chord inserts the thin space)
+- `label` — same style as Karabiner rule descriptions
+- `bundleIdentifier` — optional; omit for a global entry
+
+Chord creates `~/.config/chord/` on launch and reloads when the file changes.
+
 ## Roadmap
 
 - [ ] Search/filter within the current app's shortcuts
@@ -122,10 +168,17 @@ For the cleanest labels, give each `complex_modifications` rule a clear `descrip
 - [ ] Pinned/favourite bindings
 - [ ] Light/dark theming polish
 - [x] Auto-refresh on `karabiner.json` change
+- [x] Supplemental bindings via `~/.config/chord/bindings.json`
 
 ## Inspiration
 
 Chord is inspired by KeyClu — the same glanceable, context-aware spirit, focused on surfacing your custom Karabiner layer.
+
+## Related
+
+| Project | Role |
+|---------|------|
+| [Watchtower](https://github.com/hyugin/watchtower) | Sibling macOS menubar app — health checks, background apps, MCP supervision, and logs |
 
 ## License
 

@@ -14,15 +14,28 @@ struct MenuContentView: View {
           .font(.caption)
           .foregroundStyle(.secondary)
           .fixedSize(horizontal: false, vertical: true)
-      } else {
-        bindingsSection
       }
+
+      if let supplementalLoadError = appState.supplementalLoadError {
+        Text(supplementalLoadError)
+          .font(.caption)
+          .foregroundStyle(.secondary)
+          .fixedSize(horizontal: false, vertical: true)
+      }
+
+      bindingsSection
 
       Divider()
 
       VStack(alignment: .leading, spacing: 2) {
         MenuActionRow(title: "Open Keyboard Map…") {
           windowManager.openKeyboardMap(appState: appState, monitor: monitor)
+        }
+
+        MenuActionRow(title: "Install Update from Downloads…") {
+          Task {
+            await DownloadsUpdateInstaller.installFromDownloadsInteractively()
+          }
         }
 
         MenuActionRow(title: "Quit Chord") {
@@ -36,8 +49,14 @@ struct MenuContentView: View {
 
   private var header: some View {
     VStack(alignment: .leading, spacing: 2) {
-      Text("Chord")
-        .font(.headline)
+      HStack(alignment: .firstTextBaseline) {
+        Text("Chord")
+          .font(.headline)
+        Spacer(minLength: 8)
+        Text("v\(AppVersion.marketing)")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+      }
       Text(monitor.frontmostAppName)
         .font(.subheadline)
         .foregroundStyle(.secondary)

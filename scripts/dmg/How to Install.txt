@@ -1,0 +1,22 @@
+Chord is ad-hoc signed (no Apple Developer ID).
+Every release DMG is a new binary hash, so macOS quarantines the download and shows a malware warning if you open Chord (or any .command helper) directly.
+
+If Chord is already installed:
+1. Download the new DMG into your Downloads folder.
+2. Open the Chord menu → Install Update from Downloads…
+3. Confirm — Chord installs to /Applications, clears quarantine, and relaunches.
+
+First-time install from Terminal (replace the version):
+
+DMG="chord-<version>.dmg"
+hdiutil attach "$DMG" -nobrowse -quiet
+cp -R "/Volumes/Chord/Chord.app" /Applications/
+xattr -cr /Applications/Chord.app
+open /Applications/Chord.app
+hdiutil detach "/Volumes/Chord" -quiet
+
+Or drag Chord.app onto the Applications shortcut in this window, then:
+
+xattr -cr /Applications/Chord.app && open /Applications/Chord.app
+
+Building from source also skips Gatekeeper — see the project README.

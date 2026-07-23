@@ -5,6 +5,8 @@ import Foundation
 final class AppState: ObservableObject {
   @Published private(set) var config: KarabinerConfig?
   @Published private(set) var loadError: String?
+  @Published private(set) var supplementalEntries: [SupplementalBindingEntry] = []
+  @Published private(set) var supplementalLoadError: String?
   @Published private(set) var appBindings: [Binding] = []
   @Published private(set) var browserBindings: [Binding] = []
   @Published private(set) var globalBindings: [Binding] = []
@@ -12,26 +14,50 @@ final class AppState: ObservableObject {
   @Published private(set) var shortcutExtractionWarnings: [String] = []
 
   private let loader: KarabinerLoader
+  private let supplementalLoader: SupplementalBindingsLoader
   private let watcher: KarabinerConfigWatcher
+  private let supplementalWatcher: KarabinerConfigWatcher
   private var cancellables = Set<AnyCancellable>()
 
-  init(loader: KarabinerLoader = KarabinerLoader(), monitor: FrontmostAppMonitor) {
+  init(
+    loader: KarabinerLoader = KarabinerLoader(),
+    supplementalLoader: SupplementalBindingsLoader = SupplementalBindingsLoader(),
+    monitor: FrontmostAppMonitor
+  ) {
     self.loader = loader
+    self.supplementalLoader = supplementalLoader
     self.watcher = KarabinerConfigWatcher(configURL: loader.configURL)
+    // Watch the config directory so creating bindings.json after launch is picked up.
+    self.supplementalWatcher = KarabinerConfigWatcher(
+      configURL: supplementalLoader.configURL.deletingLastPathComponent()
+    )
 
-    monitor.$frontmostBundleIdentifier
-      .combineLatest($config)
-      .sink { [weak self] bundleIdentifier, config in
-        self?.refreshBindings(bundleIdentifier: bundleIdentifier, config: config)
-      }
-      .store(in: &cancellables)
+    Publishers.CombineLatest3(
+      monitor.$frontmostBundleIdentifier,
+      $config,
+      $supplementalEntries
+    )
+    .sink { [weak self] bundleIdentifier, config, supplementalEntries in
+      self?.refreshBindings(
+        bundleIdentifier: bundleIdentifier,
+        config: config,
+        supplementalEntries: supplementalEntries
+      )
+    }
+    .store(in: &cancellables)
 
     watcher.onChange = { [weak self] in
       self?.reloadConfig()
     }
+    supplementalWatcher.onChange = { [weak self] in
+      self?.reloadSupplementalBindings()
+    }
 
+    supplementalLoader.ensureConfigDirectoryExists()
     reloadConfig()
+    reloadSupplementalBindings()
     watcher.start()
+    supplementalWatcher.start()
   }
 
   func reloadConfig() {
@@ -46,10 +72,18 @@ final class AppState: ObservableObject {
     } catch {
       config = nil
       loadError = error.localizedDescription
-      appBindings = []
-      globalBindings = []
       shortcutExtraction = nil
       shortcutExtractionWarnings = []
+    }
+  }
+
+  func reloadSupplementalBindings() {
+    do {
+      supplementalEntries = try supplementalLoader.load()
+      supplementalLoadError = nil
+    } catch {
+      supplementalEntries = []
+      supplementalLoadError = error.localizedDescription
     }
   }
 
@@ -74,7 +108,6 @@ final class AppState: ObservableObject {
       return
     }
 
-    let bindings = BindingMatcher.bindings(for: bundleIdentifier, in: config)
     appBindings = bindings.filter {
       if case .app = $0.scope { return true }
       return false
