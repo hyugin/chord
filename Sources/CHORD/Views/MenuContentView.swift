@@ -32,7 +32,7 @@ struct MenuContentView: View {
           windowManager.openKeyboardMap(appState: appState, monitor: monitor)
         }
 
-        MenuActionRow(title: "Install Update from Downloads…") {
+        MenuActionRow(title: "Check for Updates…") {
           Task {
             await DownloadsUpdateInstaller.installFromDownloadsInteractively()
           }
