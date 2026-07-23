@@ -97,16 +97,21 @@ final class AppState: ObservableObject {
     )
   }
 
-  private func refreshBindings(bundleIdentifier: String?, config: KarabinerConfig?) {
+  private func refreshBindings(
+    bundleIdentifier: String?,
+    config: KarabinerConfig?,
+    supplementalEntries: [SupplementalBindingEntry]
+  ) {
     browserBindings = BrowserShortcutCatalogue.menuBindings(
       forBundleIdentifier: bundleIdentifier
     )
 
-    guard let config else {
-      appBindings = []
-      globalBindings = []
-      return
-    }
+    let karabinerBindings = config.map { BindingMatcher.bindings(for: bundleIdentifier, in: $0) } ?? []
+    let supplementalBindings = SupplementalBindingMatcher.bindings(
+      for: bundleIdentifier,
+      from: supplementalEntries
+    )
+    let bindings = karabinerBindings + supplementalBindings
 
     appBindings = bindings.filter {
       if case .app = $0.scope { return true }
