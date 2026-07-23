@@ -17,8 +17,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "Confirmed in Firefox 153.0 and Zen 1.21.8b browser keysets (accel+T).",
-      "keep": true,
-      "keepReason": "Daily tab creation; much faster than clicking the new-tab control."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-close-tab",
@@ -30,8 +30,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "Confirmed in Firefox/Zen keysets (accel+W).",
-      "keep": true,
-      "keepReason": "Highest-frequency tab management action."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-reopen-closed-tab",
@@ -43,8 +43,8 @@
       "sourceUrl": "https://docs.zen-browser.app/user-manual/shortcuts",
       "sourceCheckedAt": "2026-07-23",
       "notes": "Zen docs: Restore Last Closed Tab. Firefox Help: Undo Close Tab (command+shift+T).",
-      "keep": true,
-      "keepReason": "Weekly recovery action with no fast mouse equivalent."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-new-window",
@@ -56,8 +56,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "",
-      "keep": true,
-      "keepReason": "Core window management; faster than File menu."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-private-window",
@@ -69,8 +69,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "",
-      "keep": true,
-      "keepReason": "Frequent privacy workflow without hunting the menu."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-close-window",
@@ -108,8 +108,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "",
-      "keep": true,
-      "keepReason": "Faster than toolbar reload during development and browsing."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-reload-bypass-cache",
@@ -134,8 +134,8 @@
       "sourceUrl": "https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly",
       "sourceCheckedAt": "2026-07-23",
       "notes": "Also ⌘← in Firefox/Zen keysets; catalogue keeps the bracket form as the memorable alternative.",
-      "keep": true,
-      "keepReason": "Core navigation; materially faster than the back button."
+      "keep": false,
+      "keepReason": null
     },
     {
       "id": "firefox-zen-go-forward",
