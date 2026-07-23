@@ -360,7 +360,7 @@
     },
     {
       "id": "zen-split-horizontal",
-      "action": "Toggle Split View Horizontal",
+      "action": "Split horizontally",
       "category": "zen-sidebar",
       "browser": "zen",
       "keys": "⌥⌘H",
@@ -369,20 +369,20 @@
       "sourceCheckedAt": "2026-07-23",
       "notes": "Docs and in-product agree on accel+alt+H.",
       "keep": true,
-      "keepReason": "Distinctive Zen multitasking feature worth a dedicated cheat-sheet slot."
+      "keepReason": "Zen-only split-view layout control used for side-by-side browsing."
     },
     {
       "id": "zen-split-vertical",
-      "action": "Toggle Split View Vertical",
+      "action": "Split vertically",
       "category": "zen-sidebar",
       "browser": "zen",
       "keys": "⌥⌘V",
       "availability": "default",
       "sourceUrl": "https://docs.zen-browser.app/user-manual/shortcuts",
       "sourceCheckedAt": "2026-07-23",
-      "notes": "",
-      "keep": false,
-      "keepReason": null
+      "notes": "Docs and in-product agree on accel+alt+V.",
+      "keep": true,
+      "keepReason": "Zen-only split-view layout control paired with horizontal split."
     },
     {
       "id": "zen-split-unsplit",
