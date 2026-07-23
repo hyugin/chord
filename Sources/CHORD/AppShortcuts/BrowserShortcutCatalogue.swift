@@ -116,11 +116,7 @@ enum BrowserShortcutCatalogue {
   }
 
   static func cheatSheet(from catalogue: BrowserShortcutCatalogueFile) -> [BrowserShortcutCheatSheetSection] {
-    let kept = catalogue.records.filter { record in
-      record.keep
-        && record.availability != .conflict
-        && record.availability != .unverified
-    }
+    let kept = keptRecords(from: catalogue)
 
     return BrowserShortcutCheatSheetGroup.allCases.compactMap { group in
       let items = kept.filter { BrowserShortcutCheatSheetGroup.group(for: $0) == group }
@@ -129,17 +125,73 @@ enum BrowserShortcutCatalogue {
     }
   }
 
-  static func applies(toBundleIdentifier bundleIdentifier: String?) -> Bool {
-    guard let bundleIdentifier else { return false }
-    return supportedBundleIdentifiers.contains(bundleIdentifier)
+  /// Kept shortcuts for the menubar app section (Firefox → shared+Firefox, Zen → shared+Zen).
+  static func menuBindings(forBundleIdentifier bundleIdentifier: String?) -> [Binding] {
+    guard let bundleIdentifier,
+          let family = browserFamily(forBundleIdentifier: bundleIdentifier),
+          let catalogue = try? load()
+    else {
+      return []
+    }
+
+    return keptRecords(from: catalogue, matching: family).map { record in
+      Binding(
+        label: record.action,
+        keys: record.keys,
+        scope: .app(bundleIdentifier: bundleIdentifier)
+      )
+    }
   }
 
-  static let supportedBundleIdentifiers: Set<String> = [
+  static func keptRecords(
+    from catalogue: BrowserShortcutCatalogueFile,
+    matching family: BrowserShortcutRecord.Browser? = nil
+  ) -> [BrowserShortcutRecord] {
+    catalogue.records.filter { record in
+      guard record.keep,
+            record.availability != .conflict,
+            record.availability != .unverified
+      else {
+        return false
+      }
+
+      guard let family else { return true }
+
+      switch family {
+      case .firefox:
+        return record.browser == .firefox || record.browser == .both
+      case .zen:
+        return record.browser == .zen || record.browser == .both
+      case .both:
+        return true
+      }
+    }
+  }
+
+  static func browserFamily(forBundleIdentifier bundleIdentifier: String?) -> BrowserShortcutRecord.Browser? {
+    guard let bundleIdentifier else { return nil }
+    if firefoxBundleIdentifiers.contains(bundleIdentifier) { return .firefox }
+    if zenBundleIdentifiers.contains(bundleIdentifier) { return .zen }
+    return nil
+  }
+
+  static func applies(toBundleIdentifier bundleIdentifier: String?) -> Bool {
+    browserFamily(forBundleIdentifier: bundleIdentifier) != nil
+  }
+
+  static let firefoxBundleIdentifiers: Set<String> = [
     "org.mozilla.firefox",
     "org.mozilla.firefoxdeveloperedition",
     "org.mozilla.nightly",
+  ]
+
+  static let zenBundleIdentifiers: Set<String> = [
     "app.zen-browser.zen",
   ]
+
+  static var supportedBundleIdentifiers: Set<String> {
+    firefoxBundleIdentifiers.union(zenBundleIdentifiers)
+  }
 
   private static func isValidID(_ id: String) -> Bool {
     let pattern = #"^[a-z0-9]+(?:-[a-z0-9]+)*$"#

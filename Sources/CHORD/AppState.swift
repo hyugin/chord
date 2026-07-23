@@ -8,6 +8,7 @@ final class AppState: ObservableObject {
   @Published private(set) var supplementalEntries: [SupplementalBindingEntry] = []
   @Published private(set) var supplementalLoadError: String?
   @Published private(set) var appBindings: [Binding] = []
+  @Published private(set) var browserBindings: [Binding] = []
   @Published private(set) var globalBindings: [Binding] = []
   @Published private(set) var shortcutExtraction: ShortcutExtractionResult?
   @Published private(set) var shortcutExtractionWarnings: [String] = []
@@ -96,17 +97,16 @@ final class AppState: ObservableObject {
     )
   }
 
-  private func refreshBindings(
-    bundleIdentifier: String?,
-    config: KarabinerConfig?,
-    supplementalEntries: [SupplementalBindingEntry]
-  ) {
-    let karabinerBindings = config.map { BindingMatcher.bindings(for: bundleIdentifier, in: $0) } ?? []
-    let supplementalBindings = SupplementalBindingMatcher.bindings(
-      for: bundleIdentifier,
-      from: supplementalEntries
+  private func refreshBindings(bundleIdentifier: String?, config: KarabinerConfig?) {
+    browserBindings = BrowserShortcutCatalogue.menuBindings(
+      forBundleIdentifier: bundleIdentifier
     )
-    let bindings = karabinerBindings + supplementalBindings
+
+    guard let config else {
+      appBindings = []
+      globalBindings = []
+      return
+    }
 
     appBindings = bindings.filter {
       if case .app = $0.scope { return true }

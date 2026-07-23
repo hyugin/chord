@@ -1,4 +1,3 @@
-import AppKit
 import SwiftUI
 
 struct MenuContentView: View {
@@ -29,12 +28,6 @@ struct MenuContentView: View {
       Divider()
 
       VStack(alignment: .leading, spacing: 2) {
-        if BrowserShortcutCatalogue.applies(toBundleIdentifier: monitor.frontmostBundleIdentifier) {
-          MenuActionRow(title: "Firefox / Zen Shortcuts…") {
-            openBrowserShortcuts()
-          }
-        }
-
         MenuActionRow(title: "Open Keyboard Map…") {
           windowManager.openKeyboardMap(appState: appState, monitor: monitor)
         }
@@ -72,17 +65,21 @@ struct MenuContentView: View {
 
   @ViewBuilder
   private var bindingsSection: some View {
-    if appState.appBindings.isEmpty && appState.globalBindings.isEmpty {
+    let appSectionBindings = appState.appBindings + appState.browserBindings
+    let hasAppSection = !appSectionBindings.isEmpty
+    let hasGlobal = !appState.globalBindings.isEmpty
+
+    if !hasAppSection && !hasGlobal {
       Text("No custom bindings for \(monitor.frontmostAppName)")
         .font(.caption)
         .foregroundStyle(.secondary)
     } else {
-      if !appState.appBindings.isEmpty {
-        section(title: monitor.frontmostAppName, bindings: appState.appBindings)
+      if hasAppSection {
+        section(title: monitor.frontmostAppName, bindings: appSectionBindings)
       }
 
-      if !appState.globalBindings.isEmpty {
-        if !appState.appBindings.isEmpty {
+      if hasGlobal {
+        if hasAppSection {
           Divider()
         }
         section(title: "Global", bindings: appState.globalBindings)
@@ -99,19 +96,6 @@ struct MenuContentView: View {
       ForEach(bindings) { binding in
         BindingRowView(binding: binding)
       }
-    }
-  }
-
-  private func openBrowserShortcuts() {
-    do {
-      let catalogue = try BrowserShortcutCatalogue.load()
-      windowManager.openBrowserShortcutCheatSheet(catalogue: catalogue)
-    } catch {
-      let alert = NSAlert()
-      alert.messageText = "Couldn’t load browser shortcuts"
-      alert.informativeText = error.localizedDescription
-      alert.alertStyle = .warning
-      alert.runModal()
     }
   }
 }
