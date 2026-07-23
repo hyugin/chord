@@ -6,6 +6,7 @@ final class AppState: ObservableObject {
   @Published private(set) var config: KarabinerConfig?
   @Published private(set) var loadError: String?
   @Published private(set) var appBindings: [Binding] = []
+  @Published private(set) var browserBindings: [Binding] = []
   @Published private(set) var globalBindings: [Binding] = []
   @Published private(set) var shortcutExtraction: ShortcutExtractionResult?
   @Published private(set) var shortcutExtractionWarnings: [String] = []
@@ -63,6 +64,10 @@ final class AppState: ObservableObject {
   }
 
   private func refreshBindings(bundleIdentifier: String?, config: KarabinerConfig?) {
+    browserBindings = BrowserShortcutCatalogue.menuBindings(
+      forBundleIdentifier: bundleIdentifier
+    )
+
     guard let config else {
       appBindings = []
       globalBindings = []

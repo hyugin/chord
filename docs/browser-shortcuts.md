@@ -5,10 +5,10 @@ Chord ships a **versioned macOS catalogue** of Firefox and Zen Browser shortcuts
 ## Source of truth
 
 - Data file: `Sources/Chord/AppShortcuts/firefox-zen-shortcuts.json`
-- Loader / validation / cheat-sheet derivation: `Sources/Chord/AppShortcuts/BrowserShortcutCatalogue.swift`
-- UI: **Firefox / Zen Shortcuts…** in the menubar popover when Firefox or Zen is frontmost
+- Loader / validation / menubar derivation: `Sources/Chord/AppShortcuts/BrowserShortcutCatalogue.swift`
+- UI: kept shortcuts render **inline under the Firefox/Zen app section** in the menubar (same row style as Karabiner bindings). There is no separate shortcuts window.
 
-Do **not** hard-code shortcut strings in the SwiftUI view. Edit the JSON, then regenerate understanding from `keep: true` records.
+Do **not** hard-code shortcut strings in the SwiftUI view. Edit the JSON `keep` flags; the menubar reads only `keep: true` records for the frontmost browser.
 
 ## Record schema
 

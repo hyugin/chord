@@ -96,9 +96,38 @@ final class BrowserShortcutCatalogueTests: XCTestCase {
     XCTAssertTrue(sections.isEmpty)
   }
 
+  func testMenuBindingsFilterByBrowserFamily() throws {
+    let zen = BrowserShortcutCatalogue.menuBindings(
+      forBundleIdentifier: "app.zen-browser.zen"
+    )
+    let firefox = BrowserShortcutCatalogue.menuBindings(
+      forBundleIdentifier: "org.mozilla.firefox"
+    )
+    let safari = BrowserShortcutCatalogue.menuBindings(
+      forBundleIdentifier: "com.apple.Safari"
+    )
+
+    XCTAssertFalse(zen.isEmpty)
+    XCTAssertFalse(firefox.isEmpty)
+    XCTAssertTrue(safari.isEmpty)
+    XCTAssertGreaterThan(zen.count, firefox.count)
+    XCTAssertTrue(zen.contains { $0.label == "Forward Workspace" })
+    XCTAssertFalse(firefox.contains { $0.label == "Forward Workspace" })
+    XCTAssertTrue(zen.contains { $0.label == "New Tab" })
+    XCTAssertTrue(firefox.contains { $0.label == "New Tab" })
+  }
+
   func testBundleIdentifierDetection() {
     XCTAssertTrue(BrowserShortcutCatalogue.applies(toBundleIdentifier: "org.mozilla.firefox"))
     XCTAssertTrue(BrowserShortcutCatalogue.applies(toBundleIdentifier: "app.zen-browser.zen"))
     XCTAssertFalse(BrowserShortcutCatalogue.applies(toBundleIdentifier: "com.apple.Safari"))
+    XCTAssertEqual(
+      BrowserShortcutCatalogue.browserFamily(forBundleIdentifier: "app.zen-browser.zen"),
+      .zen
+    )
+    XCTAssertEqual(
+      BrowserShortcutCatalogue.browserFamily(forBundleIdentifier: "org.mozilla.firefox"),
+      .firefox
+    )
   }
 }
